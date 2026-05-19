@@ -4,6 +4,7 @@ import org.cucala.snap.auth.AuthService;
 import org.cucala.snap.auth.JwtVerifier;
 import org.cucala.snap.auth.UserRepository;
 import org.cucala.snap.config.AppConfig;
+import org.cucala.snap.dashboard.ClickRepository;
 import org.cucala.snap.server.SnapServer;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -44,10 +45,11 @@ class UrlsHandlerTest {
 
         shortener = new UrlShortener(new UrlRepository(dbFile.toString()));
         JwtVerifier verifier = new JwtVerifier(SECRET);
+        ClickRepository clickRepository = new ClickRepository(dbFile.toString());
 
         server = new SnapServer(AppConfig.from(Map.of("PORT", "0", "DB_NAME", "test.db")));
         server.createContext("/urls", new UrlsHandler(shortener, verifier));
-        server.setFallbackHandler(new RedirectHandler(shortener));
+        server.setFallbackHandler(new RedirectHandler(shortener, clickRepository));
         server.start();
 
         client = HttpClient.newBuilder()

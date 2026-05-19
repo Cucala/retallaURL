@@ -2,6 +2,7 @@ package org.cucala.snap.urls;
 
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
+import org.cucala.snap.dashboard.ClickRepository;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -11,9 +12,11 @@ public class RedirectHandler implements HttpHandler {
     private static final byte[] NOT_FOUND_BODY = "{\"error\":\"Not found\"}".getBytes();
 
     private final UrlShortener shortener;
+    private final ClickRepository clickRepository;
 
-    public RedirectHandler(UrlShortener shortener) {
+    public RedirectHandler(UrlShortener shortener, ClickRepository clickRepository) {
         this.shortener = shortener;
+        this.clickRepository = clickRepository;
     }
 
     @Override
@@ -32,6 +35,7 @@ public class RedirectHandler implements HttpHandler {
 
         Optional<ShortUrl> url = shortener.resolve(code);
         if (url.isPresent()) {
+            clickRepository.save(code);
             exchange.getResponseHeaders().set("Location", url.get().longUrl());
             exchange.sendResponseHeaders(302, -1);
             exchange.close();
