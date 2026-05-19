@@ -32,7 +32,9 @@ public class UrlsHandler implements HttpHandler {
             }
         } else if (path.startsWith("/urls/")) {
             String code = path.substring("/urls/".length());
-            if ("DELETE".equals(method)) {
+            if ("GET".equals(method) && "mine".equals(code)) {
+                handleGetMine(exchange);
+            } else if ("DELETE".equals(method)) {
                 handleDelete(exchange, code);
             } else {
                 exchange.sendResponseHeaders(405, -1);
@@ -56,8 +58,28 @@ public class UrlsHandler implements HttpHandler {
             return;
         }
 
-        ShortUrl created = shortener.shorten(longUrl, email);
+        String alias = extractJsonField(body, "alias");
+        ShortUrl created;
+        if (alias != null && !alias.isBlank()) {
+            if (!alias.matches("[a-zA-Z0-9-]{3,30}")) {
+                sendJson(exchange, 400, "{\"error\":\"El alias solo puede contener letras, números y guiones (3-30 caracteres)\"}");
+                return;
+            }
+            if (shortener.resolve(alias).isPresent()) {
+                sendJson(exchange, 409, "{\"error\":\"El alias ya está en uso\"}");
+                return;
+            }
+            created = shortener.shorten(longUrl, email, alias);
+        } else {
+            created = shortener.shorten(longUrl, email);
+        }
         sendJson(exchange, 201, toJson(created));
+    }
+
+    private void handleGetMine(HttpExchange exchange) throws IOException {
+        String email = requireAuth(exchange);
+        if (email == null) return;
+        sendJson(exchange, 200, toJsonArray(shortener.listByOwner(email)));
     }
 
     private void handleGet(HttpExchange exchange) throws IOException {

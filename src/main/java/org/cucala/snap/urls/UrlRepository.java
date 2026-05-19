@@ -73,6 +73,21 @@ public class UrlRepository {
         }
     }
 
+    public List<ShortUrl> findByOwner(String ownerEmail) {
+        String sql = "SELECT code, long_url, created_at, owner_email FROM short_urls WHERE owner_email = ? ORDER BY created_at DESC";
+        try (Connection conn = DriverManager.getConnection(jdbcUrl);
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+            stmt.setString(1, ownerEmail);
+            try (ResultSet rs = stmt.executeQuery()) {
+                List<ShortUrl> urls = new ArrayList<>();
+                while (rs.next()) urls.add(map(rs));
+                return urls;
+            }
+        } catch (SQLException e) {
+            throw new IllegalStateException("Error al listar las URLs del usuario", e);
+        }
+    }
+
     public List<ShortUrl> findAll() {
         String sql = "SELECT code, long_url, created_at, owner_email FROM short_urls ORDER BY created_at DESC";
         try (Connection conn = DriverManager.getConnection(jdbcUrl);

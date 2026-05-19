@@ -19,7 +19,10 @@ public class UrlShortener {
     }
 
     public ShortUrl shorten(String longUrl, String ownerEmail) {
-        String code = generateCode();
+        return shorten(longUrl, ownerEmail, generateCode());
+    }
+
+    public ShortUrl shorten(String longUrl, String ownerEmail, String code) {
         ShortUrl url = new ShortUrl(code, longUrl, Instant.now(), ownerEmail);
         repository.save(url);
         return url;
@@ -39,6 +42,10 @@ public class UrlShortener {
 
     public List<ShortUrl> listAll() {
         return repository.findAll();
+    }
+
+    public List<ShortUrl> listByOwner(String ownerEmail) {
+        return repository.findByOwner(ownerEmail);
     }
 
     private static String generateCode() {

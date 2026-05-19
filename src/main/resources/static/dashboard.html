@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Snap — Dashboard</title>
+    <link rel="stylesheet" href="/app/css/style.css">
+</head>
+<body>
+<header>
+    <h1>Snap</h1>
+    <div class="user-info">
+        <span id="user-name"></span>
+        <button class="btn-secondary" onclick="logout()">Cerrar sesión</button>
+    </div>
+</header>
+
+<main>
+    <section class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-value" id="stat-total">—</span>
+            <span class="stat-label">URLs creadas</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-value" id="stat-clicks">—</span>
+            <span class="stat-label">Clicks totales</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-value" id="stat-active">—</span>
+            <span class="stat-label">URLs activas</span>
+        </div>
+    </section>
+
+    <section class="card">
+        <h2>Nueva URL corta</h2>
+        <form id="form-create" onsubmit="handleCreate(event)">
+            <div class="create-row">
+                <div class="field grow">
+                    <label for="new-url">URL larga</label>
+                    <input type="url" id="new-url" required placeholder="https://ejemplo.com/página-muy-larga">
+                </div>
+                <div class="field alias-field">
+                    <label for="new-alias">Alias <span class="hint">(opcional)</span></label>
+                    <input type="text" id="new-alias" placeholder="mi-alias"
+                           pattern="[a-zA-Z0-9\-]{3,30}"
+                           title="3-30 caracteres: letras, números y guiones">
+                </div>
+                <div class="field submit-field">
+                    <label>&nbsp;</label>
+                    <button type="submit" class="btn-primary" id="create-submit">Acortar</button>
+                </div>
+            </div>
+            <div id="create-error" class="error hidden"></div>
+        </form>
+    </section>
+
+    <section class="card">
+        <h2>Mis URLs</h2>
+        <div class="table-wrap">
+            <table>
+                <thead>
+                    <tr>
+                        <th>URL corta</th>
+                        <th>Destino</th>
+                        <th>Creada</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody id="urls-body">
+                    <tr><td colspan="4" class="empty">Cargando…</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+</main>
+
+<script src="/app/js/api.js"></script>
+<script src="/app/js/dashboard.js"></script>
+</body>
+</html>

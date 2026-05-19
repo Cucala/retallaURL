@@ -1,0 +1,296 @@
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #f4f6f9;
+    color: #1a1a2e;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* ── Auth page ── */
+.auth-container {
+    width: 100%;
+    max-width: 400px;
+    margin: auto;
+    padding: 2rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0,0,0,.08);
+}
+
+.auth-container h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    color: #4f46e5;
+}
+
+.tagline {
+    text-align: center;
+    color: #6b7280;
+    font-size: .9rem;
+    margin-top: .25rem;
+    margin-bottom: 1.5rem;
+}
+
+/* ── Tabs ── */
+.tabs {
+    display: flex;
+    border-bottom: 2px solid #e5e7eb;
+    margin-bottom: 1.5rem;
+}
+
+.tab {
+    flex: 1;
+    padding: .6rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: .95rem;
+    color: #6b7280;
+    font-weight: 500;
+    transition: color .15s;
+}
+
+.tab.active {
+    color: #4f46e5;
+    border-bottom: 2px solid #4f46e5;
+    margin-bottom: -2px;
+}
+
+/* ── Form fields ── */
+.field {
+    margin-bottom: 1rem;
+}
+
+.field label {
+    display: block;
+    font-size: .85rem;
+    font-weight: 600;
+    margin-bottom: .3rem;
+    color: #374151;
+}
+
+.hint {
+    font-weight: 400;
+    color: #9ca3af;
+}
+
+.field input {
+    width: 100%;
+    padding: .6rem .75rem;
+    border: 1.5px solid #d1d5db;
+    border-radius: 6px;
+    font-size: .95rem;
+    transition: border-color .15s;
+    outline: none;
+}
+
+.field input:focus {
+    border-color: #4f46e5;
+}
+
+/* ── Buttons ── */
+.btn-primary {
+    width: 100%;
+    padding: .7rem;
+    background: #4f46e5;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    font-size: .95rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: .5rem;
+    transition: background .15s, opacity .15s;
+}
+
+.btn-primary:hover { background: #4338ca; }
+.btn-primary:disabled { opacity: .6; cursor: not-allowed; }
+
+.btn-secondary {
+    padding: .4rem .8rem;
+    background: transparent;
+    color: #4f46e5;
+    border: 1.5px solid #4f46e5;
+    border-radius: 6px;
+    font-size: .875rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .15s;
+}
+
+.btn-secondary:hover { background: #eef2ff; }
+
+/* ── Error message ── */
+.error {
+    background: #fef2f2;
+    border: 1px solid #fca5a5;
+    color: #dc2626;
+    padding: .5rem .75rem;
+    border-radius: 6px;
+    font-size: .875rem;
+    margin-bottom: .75rem;
+}
+
+/* ── Dashboard layout ── */
+header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+    background: #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,.06);
+}
+
+header h1 { font-size: 1.4rem; font-weight: 800; color: #4f46e5; }
+
+header .user-info {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+    color: #6b7280;
+    font-size: .9rem;
+}
+
+main { padding: 2rem; max-width: 960px; margin: 0 auto; width: 100%; }
+
+/* ── Stats grid ── */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    display: flex;
+    flex-direction: column;
+    gap: .25rem;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #4f46e5;
+    line-height: 1;
+}
+
+.stat-label {
+    font-size: .8rem;
+    color: #6b7280;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+}
+
+/* ── Card section ── */
+.card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 1.5rem;
+    box-shadow: 0 1px 6px rgba(0,0,0,.06);
+    margin-bottom: 1.5rem;
+}
+
+.card h2 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #374151;
+    margin-bottom: 1rem;
+}
+
+/* ── Create form row ── */
+.create-row {
+    display: flex;
+    gap: .75rem;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.grow { flex: 1; min-width: 200px; }
+.alias-field { width: 180px; }
+.submit-field { flex-shrink: 0; }
+.submit-field .btn-primary { margin-top: 0; width: auto; padding: .6rem 1.5rem; }
+
+/* ── Table ── */
+.table-wrap { overflow-x: auto; }
+
+table { width: 100%; border-collapse: collapse; font-size: .9rem; }
+
+th {
+    text-align: left;
+    padding: .5rem .75rem;
+    font-size: .75rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: .04em;
+    border-bottom: 2px solid #f3f4f6;
+}
+
+td {
+    padding: .65rem .75rem;
+    border-bottom: 1px solid #f3f4f6;
+    vertical-align: middle;
+}
+
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #fafafa; }
+
+.short-link { color: #4f46e5; text-decoration: none; font-weight: 500; font-size: .85rem; }
+.short-link:hover { text-decoration: underline; }
+
+.long-url {
+    max-width: 280px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: #374151;
+}
+
+.date { color: #9ca3af; font-size: .82rem; white-space: nowrap; }
+
+.btn-copy {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #9ca3af;
+    font-size: .9rem;
+    padding: 0 .25rem;
+    margin-left: .25rem;
+    transition: color .15s;
+}
+.btn-copy:hover { color: #4f46e5; }
+
+.btn-delete {
+    padding: .3rem .65rem;
+    background: transparent;
+    color: #dc2626;
+    border: 1.5px solid #fca5a5;
+    border-radius: 5px;
+    font-size: .8rem;
+    cursor: pointer;
+    transition: background .15s, border-color .15s;
+    white-space: nowrap;
+}
+.btn-delete:hover { background: #fef2f2; border-color: #dc2626; }
+.btn-delete:disabled { opacity: .5; cursor: not-allowed; }
+
+.empty { text-align: center; color: #9ca3af; padding: 2rem !important; }
+
+@media (max-width: 600px) {
+    .stats-grid { grid-template-columns: 1fr; }
+    .create-row { flex-direction: column; }
+    .alias-field, .submit-field { width: 100%; }
+    .submit-field .btn-primary { width: 100%; }
+}
+
+/* ── Utilities ── */
+.hidden { display: none !important; }

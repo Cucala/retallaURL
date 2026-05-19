@@ -9,6 +9,7 @@ import org.cucala.snap.dashboard.ClickRepository;
 import org.cucala.snap.dashboard.DashboardHandler;
 import org.cucala.snap.dashboard.DashboardRepository;
 import org.cucala.snap.server.SnapServer;
+import org.cucala.snap.server.StaticFileHandler;
 import org.cucala.snap.urls.RedirectHandler;
 import org.cucala.snap.urls.UrlRepository;
 import org.cucala.snap.urls.UrlShortener;
@@ -33,6 +34,7 @@ public class Main {
         SnapServer server = new SnapServer(config);
         JwtVerifier verifier = new JwtVerifier(config.getJwtSecret());
 
+        server.createContext("/app", new StaticFileHandler());
         server.createContext("/auth", new AuthHandler(authService));
         server.createContext("/urls", new UrlsHandler(shortener, verifier));
         server.createContext("/dashboard", new DashboardHandler(dashboardRepository, verifier));
