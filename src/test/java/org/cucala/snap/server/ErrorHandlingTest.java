@@ -96,7 +96,8 @@ class ErrorHandlingTest {
         var prodConfig = AppConfig.from(Map.of(
                 "APP_ENV", "production",
                 "DB_NAME", "test.db",
-                "PORT", "0"
+                "PORT", "0",
+                "JWT_SECRET", "test-prod-jwt-secret-must-32bytes!!"
         ));
         var prodServer = new SnapServer(prodConfig);
         prodServer.createContext("/bomb", exchange -> {

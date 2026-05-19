@@ -7,11 +7,13 @@ public final class AppConfig {
     private final int port;
     private final String env;
     private final String dbName;
+    private final String jwtSecret;
 
-    private AppConfig(int port, String env, String dbName) {
+    private AppConfig(int port, String env, String dbName, String jwtSecret) {
         this.port = port;
         this.env = env;
         this.dbName = dbName;
+        this.jwtSecret = jwtSecret;
     }
 
     public static AppConfig load() {
@@ -33,7 +35,16 @@ public final class AppConfig {
             dbName = "snap.db";
         }
 
-        return new AppConfig(port, envName, dbName);
+        String jwtSecret = env.get("JWT_SECRET");
+        if (jwtSecret == null || jwtSecret.isBlank()) {
+            if (production) {
+                throw new IllegalStateException(
+                        "La variable de entorno JWT_SECRET es obligatoria en producción");
+            }
+            jwtSecret = "snap-dev-insecure-jwt-secret-32bytes!!!";
+        }
+
+        return new AppConfig(port, envName, dbName, jwtSecret);
     }
 
     private static int parsePort(String value) {
@@ -53,6 +64,7 @@ public final class AppConfig {
     public int getPort() { return port; }
     public String getEnv() { return env; }
     public String getDbName() { return dbName; }
+    public String getJwtSecret() { return jwtSecret; }
     public boolean isProduction() { return "production".equalsIgnoreCase(env); }
     public boolean isDevelopment() { return !isProduction(); }
 }

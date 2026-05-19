@@ -24,14 +24,33 @@ class AppConfigTest {
         AppConfig config = AppConfig.from(Map.of(
                 "PORT", "9090",
                 "APP_ENV", "production",
-                "DB_NAME", "myapp.db"
+                "DB_NAME", "myapp.db",
+                "JWT_SECRET", "prod-jwt-secret-must-be-32-chars!!"
         ));
 
         assertEquals(9090, config.getPort());
         assertEquals("production", config.getEnv());
         assertEquals("myapp.db", config.getDbName());
+        assertEquals("prod-jwt-secret-must-be-32-chars!!", config.getJwtSecret());
         assertTrue(config.isProduction());
         assertFalse(config.isDevelopment());
+    }
+
+    @Test
+    void jwtSecretTieneValorPorDefectoEnDesarrollo() {
+        AppConfig config = AppConfig.from(Map.of());
+
+        assertNotNull(config.getJwtSecret());
+        assertFalse(config.getJwtSecret().isBlank());
+    }
+
+    @Test
+    void lanzaErrorEnProduccionSinJwtSecret() {
+        var ex = assertThrows(IllegalStateException.class, () ->
+                AppConfig.from(Map.of("APP_ENV", "production", "DB_NAME", "app.db")));
+
+        assertTrue(ex.getMessage().contains("JWT_SECRET"),
+                "El mensaje debe mencionar la variable que falta");
     }
 
     @Test

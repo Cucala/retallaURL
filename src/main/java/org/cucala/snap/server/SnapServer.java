@@ -34,6 +34,11 @@ public class SnapServer {
         http.createContext(path, wrap(handler));
     }
 
+    public void setFallbackHandler(HttpHandler handler) {
+        http.removeContext("/");
+        http.createContext("/", wrap(handler));
+    }
+
     public void start() {
         http.start();
     }
